@@ -1,4 +1,4 @@
-package org.example.omnibeuser.config;
+package org.example.omnibeuser.common.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
