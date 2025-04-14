@@ -6,5 +6,6 @@ import org.example.omnibeuser.entity.Member;
 public interface MemberService {
 
     Member createNormalMember(MemberReqDto.NormalSignup normalSignupReqDto);
+    Member createSponsorMember(MemberReqDto.SponsorSignup sponsorSignupDto);
 
 }

@@ -26,6 +26,11 @@ public enum ErrorStatus implements BaseErrorCode {
     _CARD_NUMBER_GENERATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR,"CARD5002","중복된 카드 번호로 인한 생성 실패입니다."),
     _CARD_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR,"CARD5003","카드 생성 실패입니다."),
 
+
+    // sponsor 상태
+    _ALREADY_EXIST_SPONSOR(HttpStatus.BAD_REQUEST,"SPONSOR4001","이미 존재하는 스폰서입니다."),
+    _SPONSOR_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR,"SPONSOR5001","스폰서 생성 실패입니다."),
+
     ;
 
     private final HttpStatus httpStatus;
