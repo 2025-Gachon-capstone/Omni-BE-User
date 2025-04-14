@@ -23,8 +23,18 @@ public class MemberController {
     public ApiResult<MemberResDto.NormalSignup> createNormalUser(@RequestBody MemberReqDto.NormalSignup normalSignupReqDto) {
 
         Member savedMember = memberService.createNormalMember(normalSignupReqDto);
-        return ApiResult.onSuccess(new MemberResDto.NormalSignup(savedMember.getMemberId(),savedMember.getMemberName()));
+        return ApiResult.onSuccess(MemberResDto.NormalSignup.from(savedMember));
 
     }
+
+    @PostMapping("/signup/sponsor")
+    @Operation(summary = "협찬사 사용자 회원가입 API",description = "협찬사 사용자 회원가입을 위한 Api입니다.",tags = "Member")
+    public ApiResult<MemberResDto.SponsorSignup> createSponsorUser(@RequestBody MemberReqDto.SponsorSignup sponsorSignupDto) {
+
+        Member savedMember = memberService.createSponsorMember(sponsorSignupDto);
+        return ApiResult.onSuccess(MemberResDto.SponsorSignup.from(savedMember));
+
+    }
+
 
 }

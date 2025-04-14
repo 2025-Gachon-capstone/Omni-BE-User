@@ -16,4 +16,14 @@ public class MemberConverter {
                 .status(MemberStatus.ACTIVE)
                 .build();
     }
+
+    public static Member toMember(MemberReqDto.SponsorSignup dto, String encodedPassword) {
+        return Member.builder()
+                .memberName(dto.getName())
+                .loginId(dto.getLoginId())
+                .password(encodedPassword)
+                .role(Role.SPONSOR)
+                .status(MemberStatus.ACTIVE)
+                .build();
+    }
 }

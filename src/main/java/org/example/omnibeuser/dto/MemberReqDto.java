@@ -14,4 +14,16 @@ public class MemberReqDto {
         String cardPassword;
 
     }
+
+    @Getter
+    public static class SponsorSignup{
+        String name;
+        String loginId;
+        String password;
+        String eqPassword;
+        String sponsorName;
+        String sponsorNumber;
+        Long categoryId;
+
+    }
 }
