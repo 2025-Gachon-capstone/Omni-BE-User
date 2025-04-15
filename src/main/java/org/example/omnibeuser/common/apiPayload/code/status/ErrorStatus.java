@@ -22,6 +22,12 @@ public enum ErrorStatus implements BaseErrorCode {
     _LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "MEMBER4002", "로그인에 실패했습니다."),
     _ALREADY_EXIST_LOGINID(HttpStatus.BAD_REQUEST,"MEMBER4003","이미 존재하는 아이디입니다."),
 
+    // token 상태
+    _NOTFOUND_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED,"TOKEN4001","리프레쉬 토큰이 없습니다."),
+    _EXFIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED,"TOKEN4002","만료된 리프레쉬 토큰입니다."),
+    _INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED,"TOKEN4003","유효하지 않은 리프레쉬 토큰입니다."),
+    _LOGOUT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR,"TOKEN5001","서버 오류 입니다. 다시 로그아웃 해주세요."),
+
     // card 상태
     _CARD_ALREADY_EXISTS(HttpStatus.BAD_REQUEST,"CARD4001","이미 존재하는 사용자입니다."),
     _CARD_NUMBER_GENERATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR,"CARD5002","중복된 카드 번호로 인한 생성 실패입니다."),

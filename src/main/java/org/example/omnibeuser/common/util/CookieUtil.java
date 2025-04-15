@@ -13,4 +13,12 @@ public class CookieUtil {
         return cookie;
     }
 
+    public static Cookie createExpiredCookie(String key, String value) {
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");    // 필요에 따라 경로 설정
+        // cookie.setSecure(true); // HTTPS만 허용 시
+        return cookie;
+    }
+
 }

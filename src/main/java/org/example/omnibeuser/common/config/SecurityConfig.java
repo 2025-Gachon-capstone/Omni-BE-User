@@ -1,8 +1,10 @@
 package org.example.omnibeuser.common.config;
 
 import lombok.AllArgsConstructor;
+import org.example.omnibeuser.common.security.CustomLogoutFilter;
 import org.example.omnibeuser.common.security.JWTUtil;
 import org.example.omnibeuser.common.security.LoginFilter;
+import org.example.omnibeuser.repository.SessionRepository;
 import org.example.omnibeuser.service.SessionService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 @EnableWebSecurity
 @Configuration
@@ -53,6 +56,9 @@ public class SecurityConfig {
 
         http
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),jwtUtil,sessionService), UsernamePasswordAuthenticationFilter.class);
+
+        http
+                .addFilterBefore(new CustomLogoutFilter(jwtUtil, sessionService), LogoutFilter.class);
 
         return http.build();
     }
