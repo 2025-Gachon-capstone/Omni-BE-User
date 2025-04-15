@@ -5,6 +5,7 @@ import org.example.omnibeuser.common.apiPayload.ApiResult;
 import org.example.omnibeuser.dto.MemberReqDto;
 import org.example.omnibeuser.dto.MemberResDto;
 import org.example.omnibeuser.entity.Member;
+import org.example.omnibeuser.entity.type.Role;
 import org.example.omnibeuser.service.MemberService;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,5 +37,14 @@ public class MemberController {
 
     }
 
+    @PostMapping("/login")
+    @Operation(summary = "로그인 API",
+            description = "로그인을 위한 Api 입니다.",
+            tags = "Member")
+    public ApiResult<?> login(@RequestBody MemberReqDto.Login loginReqDto) {
+
+        return ApiResult.onSuccess();
+
+    }
 
 }
