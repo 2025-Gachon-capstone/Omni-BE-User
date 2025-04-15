@@ -1,5 +1,9 @@
 package org.example.omnibeuser.service;
 
+import org.example.omnibeuser.common.apiPayload.ApiResult;
+import org.example.omnibeuser.common.apiPayload.code.status.ErrorStatus;
+import org.example.omnibeuser.common.apiPayload.exception.GeneralException;
+import org.example.omnibeuser.common.security.JWTUtil;
 import org.example.omnibeuser.entity.Session;
 import org.example.omnibeuser.repository.SessionRepository;
 import org.springframework.stereotype.Service;
@@ -12,9 +16,11 @@ import java.util.Date;
 public class SessionServiceImpl implements SessionService {
 
     private final SessionRepository sessionRepository;
+    private final JWTUtil jwtUtil;
 
-    public SessionServiceImpl(SessionRepository sessionRepository) {
+    public SessionServiceImpl(SessionRepository sessionRepository, JWTUtil jwtUtil) {
         this.sessionRepository = sessionRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -32,5 +38,22 @@ public class SessionServiceImpl implements SessionService {
 
         sessionRepository.save(session);
 
+    }
+
+    @Transactional
+    @Override
+    public ApiResult<?> processLogout(String refresh) {
+
+        if (!sessionRepository.existsByRefresh(refresh)) {
+            return ApiResult.onFailure(ErrorStatus._NOTFOUND_REFRESH_TOKEN.getCode(),ErrorStatus._NOTFOUND_REFRESH_TOKEN.getMessage(),null);
+        }
+
+        try {
+            sessionRepository.deleteByLoginId(jwtUtil.getLoginId(refresh));
+        } catch (Exception e) {
+            return ApiResult.onFailure(ErrorStatus._LOGOUT_FAILED.getCode(),ErrorStatus._LOGOUT_FAILED.getMessage(),null);
+        }
+
+        return ApiResult.onSuccess();
     }
 }
