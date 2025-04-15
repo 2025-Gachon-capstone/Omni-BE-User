@@ -68,8 +68,8 @@ public class CustomLogoutFilter extends GenericFilterBean {
         if (refresh == null) {
 
             // ApiResult 생성
-            ApiResult<?> apiResult = ApiResult.onFailure(ErrorStatus._NOTFOUND_REFRESH_TOKEN.getCode(),ErrorStatus._NOTFOUND_REFRESH_TOKEN.getMessage(), null);
-            JsonResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_UNAUTHORIZED, apiResult);
+            ApiResult<?> apiResult = ApiResult.onFailure(ErrorStatus._NULL_REFRESH_TOKEN.getCode(),ErrorStatus._NULL_REFRESH_TOKEN.getMessage(), null);
+            JsonResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_NOT_FOUND, apiResult);
             return;
         }
 
