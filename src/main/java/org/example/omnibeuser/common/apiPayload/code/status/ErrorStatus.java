@@ -20,6 +20,7 @@ public enum ErrorStatus implements BaseErrorCode {
     // member 상태
     _NOT_MATCH_PASSWORD(HttpStatus.BAD_REQUEST,"MEMBER4001","비밀번호가 동일하지 않습니다."),
     _LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "MEMBER4002", "로그인에 실패했습니다."),
+    _ALREADY_EXIST_LOGINID(HttpStatus.BAD_REQUEST,"MEMBER4003","이미 존재하는 아이디입니다."),
 
     // card 상태
     _CARD_ALREADY_EXISTS(HttpStatus.BAD_REQUEST,"CARD4001","이미 존재하는 사용자입니다."),

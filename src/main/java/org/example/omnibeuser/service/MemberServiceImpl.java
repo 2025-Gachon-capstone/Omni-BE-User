@@ -38,6 +38,10 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public Member createNormalMember(MemberReqDto.NormalSignup normalSignupReqDto) {
 
+        if(memberRepository.findByLoginId(normalSignupReqDto.getLoginId()).isPresent()){
+            throw new GeneralException(ErrorStatus._ALREADY_EXIST_LOGINID);
+        }
+
         if(!normalSignupReqDto.getPassword().equals(normalSignupReqDto.getEqPassword())) {
             throw new GeneralException(ErrorStatus._NOT_MATCH_PASSWORD);
         }
@@ -63,6 +67,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public Member createSponsorMember(MemberReqDto.SponsorSignup sponsorSignupDto) {
+
+        if(memberRepository.findByLoginId(sponsorSignupDto.getLoginId()).isPresent()){
+            throw new GeneralException(ErrorStatus._ALREADY_EXIST_LOGINID);
+        }
 
         if(!sponsorSignupDto.getPassword().equals(sponsorSignupDto.getEqPassword())) {
             throw new GeneralException(ErrorStatus._NOT_MATCH_PASSWORD);
