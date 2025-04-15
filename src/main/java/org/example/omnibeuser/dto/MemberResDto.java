@@ -40,4 +40,13 @@ public class MemberResDto {
         }
     }
 
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Login{
+        private String memberId;
+        private String role;
+    }
+
 }

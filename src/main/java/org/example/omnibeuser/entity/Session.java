@@ -3,8 +3,8 @@ package org.example.omnibeuser.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.omnibeuser.entity.base.BaseEntity;
-import org.example.omnibeuser.entity.type.MemberStatus;
-import org.example.omnibeuser.entity.type.Role;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -12,31 +12,22 @@ import org.example.omnibeuser.entity.type.Role;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Member")
-public class Member extends BaseEntity {
+@Table(name = "Session")
+public class Session extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
-
-    @Column(nullable = false)
-    private String memberName;
+    private Long sessionId;
 
     @Column(nullable = false)
     private String loginId;
 
     @Column(nullable = false)
-    private String password;
+    private String refresh;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private MemberStatus status;
+    private LocalDateTime expired;
 
     @Version
     private Long version;
-
 }

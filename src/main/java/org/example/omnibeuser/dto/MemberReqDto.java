@@ -26,4 +26,12 @@ public class MemberReqDto {
         Long categoryId;
 
     }
+
+    @Getter
+    public static class Login{
+
+        String loginId;
+        String password;
+
+    }
 }
