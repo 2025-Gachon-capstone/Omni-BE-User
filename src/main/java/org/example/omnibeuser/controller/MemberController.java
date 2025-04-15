@@ -47,4 +47,13 @@ public class MemberController {
 
     }
 
+    @PostMapping("/logout")
+    @Operation(summary = "로그아웃 API",
+            description = "로그아웃을 위한 Api 입니다. 스웨거는 쿠키를 제공 못해 실패만 합니다...",
+            tags = "Member")
+    public ApiResult<?> logout() {
+
+        return ApiResult.onSuccess();
+    }
+
 }
