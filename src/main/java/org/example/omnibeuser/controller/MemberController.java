@@ -70,4 +70,16 @@ public class MemberController {
         return ApiResult.onSuccess();
     }
 
+    @PutMapping("/members")
+    @Operation(summary = "정보 수정 API",
+            description = "정보 수정 Api 입니다.",
+            tags = "Member")
+    public ApiResult<MemberResDto.UpdateMember> update(@Parameter(hidden = true) @RequestHeader("X-Authorization-Id") String loginId,
+                               @RequestBody MemberReqDto.UpdateMember updateMemberDto){
+
+        Member savedMember = memberService.updateMember(loginId,updateMemberDto);
+        return ApiResult.onSuccess(new MemberResDto.UpdateMember(savedMember.getLoginId()));
+
+    }
+
 }

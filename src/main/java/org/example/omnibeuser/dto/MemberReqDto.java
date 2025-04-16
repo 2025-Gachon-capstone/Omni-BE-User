@@ -42,4 +42,13 @@ public class MemberReqDto {
 
     }
 
+    @Getter
+    public static class UpdateMember{
+
+        String password;
+        String newPassword;
+        String eqNewPassword;
+
+    }
+
 }

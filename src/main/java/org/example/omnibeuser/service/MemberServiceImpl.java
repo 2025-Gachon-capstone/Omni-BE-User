@@ -106,4 +106,30 @@ public class MemberServiceImpl implements MemberService {
 
         return true;
     }
+
+    @Override
+    public Member updateMember(String loginId, MemberReqDto.UpdateMember updateMemberDto) {
+
+        Member member = memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus._NOT_FOUND_LOGINID));
+
+        if (!bCryptPasswordEncoder.matches(updateMemberDto.getPassword(), member.getPassword())) {
+            throw new GeneralException(ErrorStatus._NOT_MATCH_PASSWORD);
+        }
+
+
+        if (!updateMemberDto.getNewPassword().equals(updateMemberDto.getEqNewPassword())) {
+            throw new GeneralException(ErrorStatus._NOT_MATCH_NEWPASSWORD);
+        }
+
+        if (bCryptPasswordEncoder.matches(updateMemberDto.getNewPassword(), member.getPassword())) {
+            throw new GeneralException(ErrorStatus._DUPLICATE_PASSWORD); // 새 비밀번호가 기존 비번과 같을 때 예외
+        }
+
+        member.setPassword(bCryptPasswordEncoder.encode(updateMemberDto.getNewPassword()));
+
+        Member savedMember = memberRepository.save(member);
+
+        return savedMember;
+    }
 }

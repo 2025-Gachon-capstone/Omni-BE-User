@@ -49,4 +49,13 @@ public class MemberResDto {
         private String role;
     }
 
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class UpdateMember{
+        private String loginId;
+    }
+
+
 }

@@ -22,6 +22,9 @@ public enum ErrorStatus implements BaseErrorCode {
     _LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "MEMBER4002", "로그인에 실패했습니다."),
     _ALREADY_EXIST_LOGINID(HttpStatus.BAD_REQUEST,"MEMBER4003","이미 존재하는 아이디입니다."),
     _NOT_FOUND_LOGINID(HttpStatus.NOT_FOUND,"MEMBER4004","없는 아이디입니다."),
+    _NOT_MATCH_NEWPASSWORD(HttpStatus.BAD_REQUEST,"MEMBER4005","새로운 비밀번호가 동일하지 않습니다."),
+    _DUPLICATE_PASSWORD(HttpStatus.BAD_REQUEST,"MEMBER4006","기존 비밀번호와 동일합니다."),
+
 
     // token 상태
     _NOTFOUND_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED,"TOKEN4001","리프레쉬 토큰이 없습니다."),
