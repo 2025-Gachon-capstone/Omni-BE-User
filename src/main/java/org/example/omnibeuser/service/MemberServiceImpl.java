@@ -93,4 +93,17 @@ public class MemberServiceImpl implements MemberService {
 
         return savedMember;
     }
+
+    @Override
+    public boolean verifyPassword(String loginId, String password) {
+
+        Member member = memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus._NOT_FOUND_LOGINID));
+
+        if (!bCryptPasswordEncoder.matches(password, member.getPassword())) {
+            throw new GeneralException(ErrorStatus._NOT_MATCH_PASSWORD);
+        }
+
+        return true;
+    }
 }

@@ -1,12 +1,15 @@
 package org.example.omnibeuser.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import lombok.extern.slf4j.Slf4j;
 import org.example.omnibeuser.common.apiPayload.ApiResult;
 import org.example.omnibeuser.dto.MemberReqDto;
 import org.example.omnibeuser.dto.MemberResDto;
 import org.example.omnibeuser.entity.Member;
 import org.example.omnibeuser.entity.type.Role;
 import org.example.omnibeuser.service.MemberService;
+import org.example.omnibeuser.service.MemberServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -53,6 +56,17 @@ public class MemberController {
             tags = "Member")
     public ApiResult<?> logout() {
 
+        return ApiResult.onSuccess();
+    }
+
+    @PostMapping("/password/verify")
+    @Operation(summary = "비밀번호 인증 API",
+            description = "비밀번호 인증 Api 입니다.",
+            tags = "Member")
+    public ApiResult<?> verify(@Parameter(hidden = true) @RequestHeader("X-Authorization-Id") String loginId,
+                               @RequestBody MemberReqDto.VerifyPassword passwordDto) {
+
+        memberService.verifyPassword(loginId,passwordDto.getPassword());
         return ApiResult.onSuccess();
     }
 

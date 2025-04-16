@@ -34,4 +34,12 @@ public class MemberReqDto {
         String password;
 
     }
+
+    @Getter
+    public static class VerifyPassword{
+
+        String password;
+
+    }
+
 }
