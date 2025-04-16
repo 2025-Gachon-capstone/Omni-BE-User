@@ -7,5 +7,7 @@ public interface MemberService {
 
     Member createNormalMember(MemberReqDto.NormalSignup normalSignupReqDto);
     Member createSponsorMember(MemberReqDto.SponsorSignup sponsorSignupDto);
+    boolean verifyPassword(String loginId, String password);
+    Member updateMember(String loginId, MemberReqDto.UpdateMember updateMemberDto);
 
 }

@@ -25,7 +25,7 @@ public class SessionController {
     }
 
     @PostMapping("/reissue")
-    @Operation(summary = "토큰 재발급 API",description = "스웨거는 refresh 토큰이 등록이 안돼서 에러가 납니다.",tags = "Session")
+    @Operation(summary = "토큰 재발급 API",description = "로그인 후 사용이 가능합니다.",tags = "Session")
     public ApiResult<?> reissue(HttpServletRequest request, HttpServletResponse response) {
         String refresh = null;
         Cookie[] cookies = request.getCookies();
