@@ -46,7 +46,7 @@ public class MemberController {
 
     @PostMapping("/login")
     @Operation(summary = "로그인 API",
-            description = "로그인을 위한 Api 입니다.",
+            description = "로그인시 헤더에 발급되는 Authorization을 따로 보관해야 합니다.",
             tags = "Member")
     public ApiResult<?> login(@Valid @RequestBody MemberReqDto.Login loginReqDto) {
 
@@ -56,7 +56,7 @@ public class MemberController {
 
     @PostMapping("/logout")
     @Operation(summary = "로그아웃 API",
-            description = "로그아웃을 위한 Api 입니다.",
+            description = "로그아웃시 따로 보관한 Authorization을 삭제해주셔야 합니다.",
             tags = "Member")
     public ApiResult<?> logout() {
 
@@ -88,7 +88,7 @@ public class MemberController {
 
     @DeleteMapping("/resign")
     @Operation(summary = "회원 탈퇴 API",
-            description = "회원 탈퇴시 상태값이 INACTIVE로 변합니다.",
+            description = "탈퇴시 따로 보관한 Authorization을 삭제해주셔야 합니다.",
             tags = "Member")
     public ApiResult<MemberResDto.DeleteMember> resign(@Parameter(hidden = true) @RequestHeader("X-Authorization-Id") String loginId,
                                HttpServletResponse response){
