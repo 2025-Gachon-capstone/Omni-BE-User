@@ -100,4 +100,14 @@ public class MemberController {
 
     }
 
+    @GetMapping("/members/{loginId}")
+    @Operation(summary = "멤버 아이디 가져오기 API",
+            description = "서비스 통신 시 사용됩니다.",
+            tags = "Service")
+    public ApiResult<MemberResDto.GetMemberId> getMemberId(@PathVariable String loginId){
+
+        return ApiResult.onSuccess(new MemberResDto.GetMemberId(memberService.findMemberIdByLoginId(loginId)));
+
+    }
+
 }

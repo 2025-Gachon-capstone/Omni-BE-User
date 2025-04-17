@@ -10,5 +10,5 @@ public interface MemberService {
     boolean verifyPassword(String loginId, String password);
     Member updateMember(String loginId, MemberReqDto.UpdateMember updateMemberDto);
     Member deleteMember(String loginId);
-
+    Long findMemberIdByLoginId(String loginId);
 }
