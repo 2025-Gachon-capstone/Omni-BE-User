@@ -8,4 +8,5 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
 
     boolean existsByRefresh(String refresh);
     void deleteByLoginId(String loginId);
+    boolean existsByLoginId(String loginId);
 }

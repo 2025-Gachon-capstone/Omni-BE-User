@@ -9,5 +9,6 @@ public interface MemberService {
     Member createSponsorMember(MemberReqDto.SponsorSignup sponsorSignupDto);
     boolean verifyPassword(String loginId, String password);
     Member updateMember(String loginId, MemberReqDto.UpdateMember updateMemberDto);
+    Member deleteMember(String loginId);
 
 }

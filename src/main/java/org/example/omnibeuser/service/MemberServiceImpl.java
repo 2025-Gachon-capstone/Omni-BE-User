@@ -11,6 +11,7 @@ import org.example.omnibeuser.dto.CardReqDto;
 import org.example.omnibeuser.dto.MemberReqDto;
 import org.example.omnibeuser.dto.SponsorReqDto;
 import org.example.omnibeuser.entity.Member;
+import org.example.omnibeuser.entity.type.MemberStatus;
 import org.example.omnibeuser.repository.MemberRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -130,6 +131,22 @@ public class MemberServiceImpl implements MemberService {
 
         Member savedMember = memberRepository.save(member);
 
+        return savedMember;
+    }
+
+    @Override
+    public Member deleteMember(String loginId) {
+
+        Member member = memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus._NOT_FOUND_LOGINID));
+
+        if (member.getStatus() == MemberStatus.INACTIVE) {
+            throw new GeneralException(ErrorStatus._ALREADY_RESIGN);
+        }
+
+        member.setStatus(MemberStatus.INACTIVE);
+
+        Member savedMember = memberRepository.save(member);
         return savedMember;
     }
 }

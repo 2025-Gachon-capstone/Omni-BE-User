@@ -57,5 +57,15 @@ public class MemberResDto {
         private String loginId;
     }
 
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class DeleteMember{
+        private String loginId;
+    }
+
+
+
 
 }

@@ -2,13 +2,16 @@ package org.example.omnibeuser.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.example.omnibeuser.common.apiPayload.ApiResult;
+import org.example.omnibeuser.common.util.CookieUtil;
 import org.example.omnibeuser.dto.MemberReqDto;
 import org.example.omnibeuser.dto.MemberResDto;
 import org.example.omnibeuser.entity.Member;
 import org.example.omnibeuser.service.MemberService;
 import org.example.omnibeuser.service.MemberServiceImpl;
+import org.example.omnibeuser.service.SessionService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,9 +19,11 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
+    private final SessionService sessionService;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, SessionService sessionService) {
         this.memberService = memberService;
+        this.sessionService = sessionService;
     }
 
     @PostMapping("/signup/normal")
@@ -78,6 +83,20 @@ public class MemberController {
 
         Member savedMember = memberService.updateMember(loginId,updateMemberDto);
         return ApiResult.onSuccess(new MemberResDto.UpdateMember(savedMember.getLoginId()));
+
+    }
+
+    @DeleteMapping("/resign")
+    @Operation(summary = "회원 탈퇴 API",
+            description = "회원 탈퇴시 상태값이 INACTIVE로 변합니다.",
+            tags = "Member")
+    public ApiResult<MemberResDto.DeleteMember> resign(@Parameter(hidden = true) @RequestHeader("X-Authorization-Id") String loginId,
+                               HttpServletResponse response){
+
+        Member savedMember = memberService.deleteMember(loginId);
+        sessionService.deleteSession(loginId);
+        response.addCookie(CookieUtil.createExpiredCookie("refresh",null));
+        return ApiResult.onSuccess(new MemberResDto.DeleteMember(savedMember.getLoginId()));
 
     }
 
