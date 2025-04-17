@@ -14,6 +14,8 @@ import org.example.omnibeuser.dto.MemberReqDto;
 import org.example.omnibeuser.dto.MemberResDto;
 import org.example.omnibeuser.service.SessionService;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -97,10 +99,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     //로그인 실패시 실행하는 메소드
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
-
         ApiResult<?> apiResult = ApiResult.onFailure(ErrorStatus._LOGIN_FAILED.getCode(), ErrorStatus._LOGIN_FAILED.getMessage(), null);
         JsonResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_UNAUTHORIZED, apiResult);
-
     }
 
 }

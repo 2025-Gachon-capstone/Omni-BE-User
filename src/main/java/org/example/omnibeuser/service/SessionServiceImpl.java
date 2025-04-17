@@ -8,6 +8,7 @@ import org.example.omnibeuser.common.security.JWTUtil;
 import org.example.omnibeuser.common.util.CookieUtil;
 import org.example.omnibeuser.entity.Session;
 import org.example.omnibeuser.repository.SessionRepository;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -98,6 +99,16 @@ public class SessionServiceImpl implements SessionService {
         response.addCookie(CookieUtil.createHttpOnlyCookie("refresh", newRefresh));
 
         return ApiResult.onSuccess();
+    }
+
+    @Transactional
+    @Override
+    public void deleteSession(String loginId) {
+
+        if (sessionRepository.existsByLoginId(loginId)) {
+            sessionRepository.deleteByLoginId(loginId);
+        }
+
     }
 
 }
