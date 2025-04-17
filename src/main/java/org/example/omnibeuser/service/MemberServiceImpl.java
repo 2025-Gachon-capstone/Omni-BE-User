@@ -149,4 +149,14 @@ public class MemberServiceImpl implements MemberService {
         Member savedMember = memberRepository.save(member);
         return savedMember;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Long findMemberIdByLoginId(String loginId) {
+
+        Member member = memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus._NOT_FOUND_LOGINID));
+
+        return member.getMemberId();
+    }
 }
