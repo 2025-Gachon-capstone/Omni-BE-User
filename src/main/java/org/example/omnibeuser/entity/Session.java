@@ -20,7 +20,7 @@ public class Session extends BaseEntity {
     private Long sessionId;
 
     @Column(nullable = false)
-    private String loginId;
+    private Long memberId;
 
     @Column(nullable = false)
     private String refresh;
