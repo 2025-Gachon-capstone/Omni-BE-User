@@ -7,6 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface SessionRepository extends JpaRepository<Session, Long> {
 
     boolean existsByRefresh(String refresh);
-    void deleteByLoginId(String loginId);
-    boolean existsByLoginId(String loginId);
+    void deleteByMemberId(Long memberId);
+    boolean existsByMemberId(Long memberId);
 }

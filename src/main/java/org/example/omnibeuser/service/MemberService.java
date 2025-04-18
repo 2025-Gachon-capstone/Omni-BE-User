@@ -7,8 +7,8 @@ public interface MemberService {
 
     Member createNormalMember(MemberReqDto.NormalSignup normalSignupReqDto);
     Member createSponsorMember(MemberReqDto.SponsorSignup sponsorSignupDto);
-    boolean verifyPassword(String loginId, String password);
-    Member updateMember(String loginId, MemberReqDto.UpdateMember updateMemberDto);
-    Member deleteMember(String loginId);
-    Long findMemberIdByLoginId(String loginId);
+    boolean verifyPassword(Long memberId, String password);
+    Member updateMember(Long memberId, MemberReqDto.UpdateMember updateMemberDto);
+    Member deleteMember(Long memberId);
+
 }

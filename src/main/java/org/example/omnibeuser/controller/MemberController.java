@@ -67,10 +67,10 @@ public class MemberController {
     @Operation(summary = "비밀번호 인증 API",
             description = "비밀번호 인증 Api 입니다. ( 엑세스 토큰 필요 )",
             tags = "Member")
-    public ApiResult<?> verify(@Parameter(hidden = true) @RequestHeader("X-Authorization-Id") String loginId,
+    public ApiResult<?> verify(@Parameter(hidden = true) @RequestHeader("X-Authorization-Id") Long memberId,
                                @Valid @RequestBody MemberReqDto.VerifyPassword passwordDto) {
 
-        memberService.verifyPassword(loginId,passwordDto.getPassword());
+        memberService.verifyPassword(memberId,passwordDto.getPassword());
         return ApiResult.onSuccess();
     }
 
@@ -78,11 +78,11 @@ public class MemberController {
     @Operation(summary = "정보 수정 API",
             description = "정보 수정 Api 입니다. ( 엑세스 토큰 필요 )",
             tags = "Member")
-    public ApiResult<MemberResDto.UpdateMember> update(@Parameter(hidden = true) @RequestHeader("X-Authorization-Id") String loginId,
+    public ApiResult<MemberResDto.UpdateMember> update(@Parameter(hidden = true) @RequestHeader("X-Authorization-Id") Long memberId,
                                                        @Valid @RequestBody MemberReqDto.UpdateMember updateMemberDto){
 
-        Member savedMember = memberService.updateMember(loginId,updateMemberDto);
-        return ApiResult.onSuccess(new MemberResDto.UpdateMember(savedMember.getLoginId()));
+        Member savedMember = memberService.updateMember(memberId,updateMemberDto);
+        return ApiResult.onSuccess(new MemberResDto.UpdateMember(savedMember.getMemberId()));
 
     }
 
@@ -90,23 +90,13 @@ public class MemberController {
     @Operation(summary = "회원 탈퇴 API",
             description = "탈퇴시 따로 보관한 Authorization을 삭제해주셔야 합니다. ( 엑세스 토큰 필요 )",
             tags = "Member")
-    public ApiResult<MemberResDto.DeleteMember> resign(@Parameter(hidden = true) @RequestHeader("X-Authorization-Id") String loginId,
+    public ApiResult<MemberResDto.DeleteMember> resign(@Parameter(hidden = true) @RequestHeader("X-Authorization-Id") Long memberId,
                                HttpServletResponse response){
 
-        Member savedMember = memberService.deleteMember(loginId);
-        sessionService.deleteSession(loginId);
+        Member savedMember = memberService.deleteMember(memberId);
+        sessionService.deleteSession(Long.valueOf(memberId));
         response.addCookie(CookieUtil.createExpiredCookie("refresh",null));
-        return ApiResult.onSuccess(new MemberResDto.DeleteMember(savedMember.getLoginId()));
-
-    }
-
-    @GetMapping("/members/{loginId}")
-    @Operation(summary = "멤버 아이디 가져오기 API",
-            description = "서비스 통신 시 사용됩니다.",
-            tags = "Service-Member")
-    public ApiResult<MemberResDto.GetMemberId> getMemberId(@PathVariable String loginId){
-
-        return ApiResult.onSuccess(new MemberResDto.GetMemberId(memberService.findMemberIdByLoginId(loginId)));
+        return ApiResult.onSuccess(new MemberResDto.DeleteMember(savedMember.getMemberId()));
 
     }
 

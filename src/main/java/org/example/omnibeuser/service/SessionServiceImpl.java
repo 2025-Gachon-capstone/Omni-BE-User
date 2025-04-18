@@ -28,13 +28,13 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     @Transactional
-    public void create(String loginId, String refresh, Long expiredMs) {
+    public void create(Long memberId, String refresh, Long expiredMs) {
 
         LocalDateTime expirationTime = LocalDateTime.now()
                 .plusSeconds(expiredMs / 1000);
 
         Session session = Session.builder()
-                .loginId(loginId)
+                .memberId(memberId)
                 .refresh(refresh)
                 .expired(expirationTime)
                 .build();
@@ -52,7 +52,7 @@ public class SessionServiceImpl implements SessionService {
         }
 
         try {
-            sessionRepository.deleteByLoginId(jwtUtil.getLoginId(refresh));
+            sessionRepository.deleteByMemberId(jwtUtil.getMemberId(refresh));
         } catch (Exception e) {
             return ApiResult.onFailure(ErrorStatus._LOGOUT_FAILED.getCode(),ErrorStatus._LOGOUT_FAILED.getMessage(),null);
         }
@@ -86,14 +86,14 @@ public class SessionServiceImpl implements SessionService {
             return ApiResult.onFailure(ErrorStatus._NOTFOUND_REFRESH_TOKEN.getCode(), ErrorStatus._NOTFOUND_REFRESH_TOKEN.getMessage(), null);
         }
 
-        String loginId = jwtUtil.getLoginId(refresh);
+        Long memberId = jwtUtil.getMemberId(refresh);
         String role = jwtUtil.getRole(refresh);
 
-        String newAccess = jwtUtil.createJwt("access", loginId, role, 600000L);
-        String newRefresh = jwtUtil.createJwt("refresh", loginId, role, 86400000L);
+        String newAccess = jwtUtil.createJwt("access", memberId, role, 600000L);
+        String newRefresh = jwtUtil.createJwt("refresh", memberId, role, 86400000L);
 
-        sessionRepository.deleteByLoginId(loginId);
-        create(loginId,newRefresh,86400000L);
+        sessionRepository.deleteByMemberId(memberId);
+        create(memberId,newRefresh,86400000L);
 
         response.setHeader("Authorization", "Bearer " + newAccess);
         response.addCookie(CookieUtil.createHttpOnlyCookie("refresh", newRefresh));
@@ -103,10 +103,10 @@ public class SessionServiceImpl implements SessionService {
 
     @Transactional
     @Override
-    public void deleteSession(String loginId) {
+    public void deleteSession(Long memberId) {
 
-        if (sessionRepository.existsByLoginId(loginId)) {
-            sessionRepository.deleteByLoginId(loginId);
+        if (sessionRepository.existsByMemberId(memberId)) {
+            sessionRepository.deleteByMemberId(memberId);
         }
 
     }

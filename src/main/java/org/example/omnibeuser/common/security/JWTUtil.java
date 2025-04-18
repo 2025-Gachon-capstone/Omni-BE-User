@@ -21,9 +21,9 @@ public class JWTUtil {
     }
 
     // 사용자 이름 가져오기
-    public String getLoginId(String token) {
+    public Long getMemberId(String token) {
 
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("loginId", String.class);
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("memberId", Long.class);
     }
 
     // 사용자 역할 가져오기
@@ -45,11 +45,11 @@ public class JWTUtil {
     }
 
     // JWT 토큰 만들기
-    public String createJwt(String cateogry,String loginId, String role, Long expiredMs) {
+    public String createJwt(String cateogry, Long memberId, String role, Long expiredMs) {
 
         return Jwts.builder()
                 .claim("category",cateogry)
-                .claim("loginId", loginId)
+                .claim("memberId", memberId)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))

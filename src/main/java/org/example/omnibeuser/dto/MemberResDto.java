@@ -68,7 +68,7 @@ public class MemberResDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class UpdateMember{
-        private String loginId;
+        private Long memberId;
     }
 
     @Getter
@@ -76,7 +76,7 @@ public class MemberResDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class DeleteMember{
-        private String loginId;
+        private Long memberId;
     }
 
     @Getter

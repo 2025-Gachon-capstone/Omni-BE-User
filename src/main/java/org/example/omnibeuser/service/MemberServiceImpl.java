@@ -96,10 +96,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public boolean verifyPassword(String loginId, String password) {
+    public boolean verifyPassword(Long memberId, String password) {
 
-        Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new GeneralException(ErrorStatus._NOT_FOUND_LOGINID));
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus._NOT_FOUND_MEMBER));
 
         if (!bCryptPasswordEncoder.matches(password, member.getPassword())) {
             throw new GeneralException(ErrorStatus._NOT_MATCH_PASSWORD);
@@ -109,10 +109,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member updateMember(String loginId, MemberReqDto.UpdateMember updateMemberDto) {
+    public Member updateMember(Long memberId, MemberReqDto.UpdateMember updateMemberDto) {
 
-        Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new GeneralException(ErrorStatus._NOT_FOUND_LOGINID));
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus._NOT_FOUND_MEMBER));
 
         if (!bCryptPasswordEncoder.matches(updateMemberDto.getPassword(), member.getPassword())) {
             throw new GeneralException(ErrorStatus._NOT_MATCH_PASSWORD);
@@ -135,10 +135,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member deleteMember(String loginId) {
+    public Member deleteMember(Long memberId) {
 
-        Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new GeneralException(ErrorStatus._NOT_FOUND_LOGINID));
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus._NOT_FOUND_MEMBER));
 
         if (member.getStatus() == MemberStatus.INACTIVE) {
             throw new GeneralException(ErrorStatus._ALREADY_RESIGN);
@@ -148,15 +148,5 @@ public class MemberServiceImpl implements MemberService {
 
         Member savedMember = memberRepository.save(member);
         return savedMember;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Long findMemberIdByLoginId(String loginId) {
-
-        Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new GeneralException(ErrorStatus._NOT_FOUND_LOGINID));
-
-        return member.getMemberId();
     }
 }
