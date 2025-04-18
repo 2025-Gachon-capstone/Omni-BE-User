@@ -47,6 +47,12 @@ public enum ErrorStatus implements BaseErrorCode {
     _ALREADY_EXIST_SPONSOR(HttpStatus.BAD_REQUEST,"SPONSOR4001","이미 존재하는 스폰서입니다."),
     _SPONSOR_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR,"SPONSOR5001","스폰서 생성 실패입니다."),
 
+    // 서비스 상태
+    _USER_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"SERVICE5000","USER 서버 에러"),
+    _CARD_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"SERVICE5001","CARD 서버 에러"),
+    _SPONSOR_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"SERVICE5002","SPONSOR 서버 에러"),
+    _PAYMENT_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"SERVICE5003","PAYMENT 서버 에러"),
+
     ;
 
     private final HttpStatus httpStatus;

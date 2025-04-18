@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.omnibeuser.client.SponsorClient;
 import org.example.omnibeuser.common.apiPayload.ApiResult;
 import org.example.omnibeuser.common.apiPayload.code.status.ErrorStatus;
 import org.example.omnibeuser.common.apiPayload.code.status.SuccessStatus;
@@ -12,6 +13,7 @@ import org.example.omnibeuser.common.util.CookieUtil;
 import org.example.omnibeuser.common.util.JsonResponseUtil;
 import org.example.omnibeuser.dto.MemberReqDto;
 import org.example.omnibeuser.dto.MemberResDto;
+import org.example.omnibeuser.dto.SponsorResDto;
 import org.example.omnibeuser.service.SessionService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -32,14 +34,16 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
     private final SessionService sessionService;
+    private final SponsorClient sponsorClient;
 
 
     public LoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil,
-                       SessionService sessionService) {
+                       SessionService sessionService, SponsorClient sponsorClient) {
 
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.sessionService = sessionService;
+        this.sponsorClient = sponsorClient;
         setFilterProcessesUrl("/user/v1/auth/login");
     }
 
@@ -74,12 +78,27 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         //UserDetails
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         String loginId = customUserDetails.getUsername();
+        Long memberId = customUserDetails.getMemberId();
+        String memberName = customUserDetails.getMemberName();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
 
         String role = auth.getAuthority();
+
+        // sponsorId 조회
+        Long sponsorId = null;
+        if ("SPONSOR".equals(role)) {
+            try {
+                ApiResult<SponsorResDto.GetSponsorId> sponsorRes = sponsorClient.getSponsorId(memberId);
+                sponsorId = sponsorRes.getResult().getSponsorId();
+            } catch (Exception e) {
+                ApiResult<?> failResult = ApiResult.onFailure(ErrorStatus._SPONSOR_SERVICE_ERROR.getCode(),ErrorStatus._SPONSOR_SERVICE_ERROR.getMessage(),null);
+                JsonResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, failResult);
+                return;
+            }
+        }
 
         String access = jwtUtil.createJwt("access",loginId, role, 600000L);
         String refresh = jwtUtil.createJwt("refresh",loginId, role, 86400000L);
@@ -90,7 +109,14 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         response.addCookie(CookieUtil.createHttpOnlyCookie("refresh", refresh));
 
         // ApiResult 생성
-        ApiResult<?> apiResult = ApiResult.onSuccess(SuccessStatus._OK, new MemberResDto.Login(loginId,role));
+        ApiResult<?> apiResult;
+        if ("SPONSOR".equals(role)) {
+            apiResult = ApiResult.onSuccess(SuccessStatus._OK,
+                    new MemberResDto.SponsorLogin(memberId, sponsorId, loginId, memberName, role));
+        } else {
+            apiResult = ApiResult.onSuccess(SuccessStatus._OK,
+                    new MemberResDto.UserLogin(memberId, loginId, memberName, role));
+        }
 
         JsonResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, apiResult);
 
