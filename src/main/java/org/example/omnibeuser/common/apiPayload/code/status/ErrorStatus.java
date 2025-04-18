@@ -30,28 +30,37 @@ public enum ErrorStatus implements BaseErrorCode {
     _NOTFOUND_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED,"TOKEN4001","리프레쉬 토큰이 없습니다."),
     _EXFIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED,"TOKEN4002","만료된 리프레쉬 토큰입니다."),
     _INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED,"TOKEN4003","유효하지 않은 리프레쉬 토큰입니다."),
-    _LOGOUT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR,"TOKEN5001","서버 오류 입니다. 다시 로그아웃 해주세요."),
     _NULL_REFRESH_TOKEN(HttpStatus.NOT_FOUND,"TOKEN4004","리프레쉬 토큰이 헤더에 없습니다."),
     _NULL_ACCESS_TOKEN(HttpStatus.NOT_FOUND,"TOKEN4005","엑세스 토큰이 헤더에 없습니다."),
     _EXFIRED_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED,"TOKEN4006","만료된 엑세스 토큰입니다."),
     _INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED,"TOKEN4007","유효하지 않은 엑세스 토큰입니다."),
     _NOTFOUND_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED,"TOKEN4008","엑세스 토큰이 없습니다."),
+    _LOGOUT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR,"TOKEN5001","서버 오류 입니다. 다시 로그아웃 해주세요."),
 
     // card 상태
     _CARD_ALREADY_EXISTS(HttpStatus.BAD_REQUEST,"CARD4001","이미 존재하는 사용자입니다."),
-    _CARD_NUMBER_GENERATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR,"CARD5002","중복된 카드 번호로 인한 생성 실패입니다."),
-    _CARD_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR,"CARD5003","카드 생성 실패입니다."),
-
+    _NOT_FOUND_CARD(HttpStatus.NOT_FOUND,"CARD4002","사용자의 카드가 없습니다."),
+    _NOT_MATCH_CARDPASSWORD(HttpStatus.BAD_REQUEST,"CARD4003","카드비밀번호가 일치하지 않습니다."),
+    _CARD_NUMBER_GENERATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR,"CARD5001","중복된 카드 번호로 인한 생성 실패입니다."),
+    _CARD_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR,"CARD5002","카드 생성 실패입니다."),
 
     // sponsor 상태
     _ALREADY_EXIST_SPONSOR(HttpStatus.BAD_REQUEST,"SPONSOR4001","이미 존재하는 스폰서입니다."),
+    _NOT_FOUND_SPONSOR(HttpStatus.NOT_FOUND,"SPONSOR4002","없는 스폰서입니다."),
     _SPONSOR_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR,"SPONSOR5001","스폰서 생성 실패입니다."),
+
+    // 카테고리 상태
+    _ALREADY_EXIST_CATEGORY(HttpStatus.BAD_REQUEST,"CATEGORY4001","이미 존재하는 카테고리입니다."),
+    _CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,"CATEGORY4002","카테고리가 없습니다."),
 
     // 서비스 상태
     _USER_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"SERVICE5000","USER 서버 에러"),
     _CARD_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"SERVICE5001","CARD 서버 에러"),
     _SPONSOR_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"SERVICE5002","SPONSOR 서버 에러"),
     _PAYMENT_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"SERVICE5003","PAYMENT 서버 에러"),
+
+    // DB 상태
+    _DATABASE_SAVE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"DATABASE4001","데이터베이스 저장 오류입니다."),
 
     ;
 
