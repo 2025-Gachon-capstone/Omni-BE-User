@@ -44,8 +44,22 @@ public class MemberResDto {
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class Login{
-        private String memberId;
+    public static class UserLogin{
+        private Long memberId;
+        private String loginId;
+        private String memberName;
+        private String role;
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SponsorLogin{
+        private Long memberId;
+        private Long sponsorId;
+        private String loginId;
+        private String memberName;
         private String role;
     }
 

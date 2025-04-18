@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.example.omnibeuser.common.apiPayload.code.BaseCode;
+import org.example.omnibeuser.common.apiPayload.code.status.ErrorStatus;
 import org.example.omnibeuser.common.apiPayload.code.status.SuccessStatus;
 
 
@@ -63,7 +64,5 @@ public class ApiResult<T> {
     public static <T> ApiResult<T> onFailure(BaseCode code,T result){
         return new ApiResult<>(false,code.getReasonHttpStatus().getCode(),code.getReasonHttpStatus().getMessage(),result);
     }
-
-
 
 }

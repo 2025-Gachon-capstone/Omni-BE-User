@@ -1,6 +1,7 @@
 package org.example.omnibeuser.common.config;
 
 import lombok.AllArgsConstructor;
+import org.example.omnibeuser.client.SponsorClient;
 import org.example.omnibeuser.common.security.CustomLogoutFilter;
 import org.example.omnibeuser.common.security.JWTUtil;
 import org.example.omnibeuser.common.security.LoginFilter;
@@ -25,6 +26,7 @@ public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
     private final SessionService sessionService;
+    private final SponsorClient sponsorClient;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -55,7 +57,7 @@ public class SecurityConfig {
                 );
 
         http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),jwtUtil,sessionService), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),jwtUtil,sessionService,sponsorClient), UsernamePasswordAuthenticationFilter.class);
 
         http
                 .addFilterBefore(new CustomLogoutFilter(jwtUtil, sessionService), LogoutFilter.class);
