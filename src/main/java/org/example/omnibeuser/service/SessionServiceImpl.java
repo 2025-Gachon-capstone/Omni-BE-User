@@ -89,14 +89,14 @@ public class SessionServiceImpl implements SessionService {
         Long memberId = jwtUtil.getMemberId(refresh);
         String role = jwtUtil.getRole(refresh);
 
-        String newAccess = jwtUtil.createJwt("access", memberId, role, 10000L);
+        String newAccess = jwtUtil.createJwt("access", memberId, role, 86400000L);
         String newRefresh = jwtUtil.createJwt("refresh", memberId, role, 86400000L);
 
         sessionRepository.deleteByMemberId(memberId);
         create(memberId,newRefresh,86400000L);
 
         response.setHeader("Authorization", "Bearer " + newAccess);
-        CookieUtil.addSameSiteCookie(response, "refresh", newRefresh, 86400);
+        response.addCookie(CookieUtil.createHttpOnlyCookie("refresh", newRefresh));
 
         return ApiResult.onSuccess();
     }

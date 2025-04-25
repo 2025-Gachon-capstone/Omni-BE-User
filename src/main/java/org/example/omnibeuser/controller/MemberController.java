@@ -139,7 +139,7 @@ public class MemberController {
 
         Member savedMember = memberService.deleteMember(memberId);
         sessionService.deleteSession(Long.valueOf(memberId));
-        CookieUtil.expireSameSiteCookie(response, "refresh");
+        response.addCookie(CookieUtil.createExpiredCookie("refresh",null));
         return ApiResult.onSuccess(new MemberResDto.DeleteMember(savedMember.getMemberId()));
 
     }

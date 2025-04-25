@@ -100,13 +100,13 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             }
         }
 
-        String access = jwtUtil.createJwt("access",memberId, role, 10000L);
+        String access = jwtUtil.createJwt("access",memberId, role, 86400000L);
         String refresh = jwtUtil.createJwt("refresh",memberId, role, 86400000L);
 
         sessionService.create(memberId, refresh, 86400000L);
 
         response.setHeader("Authorization", "Bearer " + access);
-        CookieUtil.addSameSiteCookie(response, "refresh", refresh, 86400); // 1일
+        response.addCookie(CookieUtil.createHttpOnlyCookie("refresh", refresh));
 
 
         // ApiResult 생성

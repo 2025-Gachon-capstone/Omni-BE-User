@@ -101,7 +101,8 @@ public class CustomLogoutFilter extends GenericFilterBean {
             return;
         }
 
-        CookieUtil.expireSameSiteCookie(response, "refresh");
+        Cookie cookie = CookieUtil.createExpiredCookie("refresh", null);
+        response.addCookie(cookie);
 
         // 로그아웃 성공 응답 설정
         ApiResult<?> successResult = ApiResult.onSuccess();
