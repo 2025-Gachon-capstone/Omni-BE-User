@@ -106,7 +106,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         sessionService.create(memberId, refresh, 86400000L);
 
         response.setHeader("Authorization", "Bearer " + access);
-        response.addCookie(CookieUtil.createHttpOnlyCookie("refresh", refresh));
+        CookieUtil.addSameSiteCookie(response, "refresh", refresh, 86400); // 1일
 
 
         // ApiResult 생성

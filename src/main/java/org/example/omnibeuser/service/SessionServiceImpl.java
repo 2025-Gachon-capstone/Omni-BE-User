@@ -96,7 +96,7 @@ public class SessionServiceImpl implements SessionService {
         create(memberId,newRefresh,86400000L);
 
         response.setHeader("Authorization", "Bearer " + newAccess);
-        response.addCookie(CookieUtil.createHttpOnlyCookie("refresh", newRefresh));
+        CookieUtil.addSameSiteCookie(response, "refresh", newRefresh, 86400);
 
         return ApiResult.onSuccess();
     }
