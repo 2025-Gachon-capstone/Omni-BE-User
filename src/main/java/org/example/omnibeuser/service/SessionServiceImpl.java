@@ -89,7 +89,7 @@ public class SessionServiceImpl implements SessionService {
         Long memberId = jwtUtil.getMemberId(refresh);
         String role = jwtUtil.getRole(refresh);
 
-        String newAccess = jwtUtil.createJwt("access", memberId, role, 600000L);
+        String newAccess = jwtUtil.createJwt("access", memberId, role, 10000L);
         String newRefresh = jwtUtil.createJwt("refresh", memberId, role, 86400000L);
 
         sessionRepository.deleteByMemberId(memberId);
