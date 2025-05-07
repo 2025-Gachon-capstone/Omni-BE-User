@@ -146,7 +146,7 @@ public class MemberController {
 
     }
 
-    @PostMapping("/MemberList")
+    @PostMapping("/memberList")
     @Operation(summary = "사용자 아이디 리스트로 사용자 정보 가져오기",
             description = "( 서비스 끼리 통신입니다. )",
             tags = "Service-Member")
