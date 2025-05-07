@@ -100,5 +100,16 @@ public class MemberResDto {
 
     }
 
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class DeleteMemberForAdmin{
+
+        private Long memberId;
+        private String loginId;
+        private String status;
+
+    }
 
 }
