@@ -32,6 +32,7 @@ public class MemberConverter {
 
     public static MemberResDto.GetMemberList getMemberList(Member member) {
         return MemberResDto.GetMemberList.builder()
+                .memberId(member.getMemberId())
                 .memberName(member.getMemberName())
                 .loginId(member.getLoginId())
                 .build();

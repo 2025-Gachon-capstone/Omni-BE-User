@@ -93,6 +93,7 @@ public class MemberResDto {
     @NoArgsConstructor
     public static class GetMemberList{
 
+        private Long memberId;
         private String memberName;
         private String loginId;
 
