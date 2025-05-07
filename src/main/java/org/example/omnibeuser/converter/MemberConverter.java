@@ -35,6 +35,7 @@ public class MemberConverter {
                 .memberId(member.getMemberId())
                 .memberName(member.getMemberName())
                 .loginId(member.getLoginId())
+                .status(String.valueOf(member.getStatus()))
                 .build();
     }
 
