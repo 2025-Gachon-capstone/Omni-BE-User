@@ -1,9 +1,12 @@
 package org.example.omnibeuser.converter;
 
 import org.example.omnibeuser.dto.MemberReqDto;
+import org.example.omnibeuser.dto.MemberResDto;
 import org.example.omnibeuser.entity.Member;
 import org.example.omnibeuser.entity.type.MemberStatus;
 import org.example.omnibeuser.entity.type.Role;
+
+import java.util.List;
 
 public class MemberConverter {
 
@@ -26,4 +29,12 @@ public class MemberConverter {
                 .status(MemberStatus.ACTIVE)
                 .build();
     }
+
+    public static MemberResDto.GetMemberList getMemberList(Member member) {
+        return MemberResDto.GetMemberList.builder()
+                .memberName(member.getMemberName())
+                .loginId(member.getLoginId())
+                .build();
+    }
+
 }

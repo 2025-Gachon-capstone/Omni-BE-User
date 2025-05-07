@@ -18,6 +18,8 @@ import org.example.omnibeuser.service.MemberServiceImpl;
 import org.example.omnibeuser.service.SessionService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user/v1/auth")
 public class MemberController {
@@ -141,6 +143,19 @@ public class MemberController {
         sessionService.deleteSession(Long.valueOf(memberId));
         CookieUtil.expireSameSiteCookie(response, "refresh");
         return ApiResult.onSuccess(new MemberResDto.DeleteMember(savedMember.getMemberId()));
+
+    }
+
+    @PostMapping("/MemberList")
+    @Operation(summary = "사용자 아이디 리스트로 사용자 정보 가져오기",
+            description = "( 서비스 끼리 통신입니다. )",
+            tags = "Service-Member")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "COMMON200-성공",content = @Content(schema = @Schema(implementation = ApiResult.class))),
+    })
+    public ApiResult<List<MemberResDto.GetMemberList>> getMemberList(@RequestBody List<Long> memberIdList) {
+
+        return ApiResult.onSuccess(memberService.getMemberListByMemberId(memberIdList));
 
     }
 
