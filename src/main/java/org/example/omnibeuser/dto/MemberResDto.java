@@ -112,4 +112,16 @@ public class MemberResDto {
 
     }
 
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GetMemberByLoginId{
+
+        private Long memberId;
+        private String loginId;
+        private String memberName;
+
+    }
+
 }

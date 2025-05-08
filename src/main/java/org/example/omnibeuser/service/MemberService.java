@@ -14,4 +14,5 @@ public interface MemberService {
     Member updateMember(Long memberId, MemberReqDto.UpdateMember updateMemberDto);
     Member deleteMember(Long memberId);
     List<MemberResDto.GetMemberList> getMemberListByMemberId(List<Long> memberIdList);
+    MemberResDto.GetMemberByLoginId getMemberByLoginId(String loginId);
 }
