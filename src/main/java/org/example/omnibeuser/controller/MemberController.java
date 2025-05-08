@@ -159,4 +159,17 @@ public class MemberController {
 
     }
 
+    @GetMapping("/id")
+    @Operation(summary = "로그인 아이디로 사용자 정보 가져오기",
+            description = "( 서비스 끼리 통신입니다. )",
+            tags = "Service-Member")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "COMMON200-성공",content = @Content(schema = @Schema(implementation = ApiResult.class))),
+    })
+    public ApiResult<MemberResDto.GetMemberByLoginId> getMemberByLoginId(@RequestParam String loginId) {
+
+        return ApiResult.onSuccess(memberService.getMemberByLoginId(loginId));
+
+    }
+
 }
