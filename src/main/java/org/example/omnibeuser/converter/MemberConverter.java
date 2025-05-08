@@ -7,6 +7,7 @@ import org.example.omnibeuser.entity.type.MemberStatus;
 import org.example.omnibeuser.entity.type.Role;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MemberConverter {
 
@@ -38,5 +39,21 @@ public class MemberConverter {
                 .status(String.valueOf(member.getStatus()))
                 .build();
     }
+
+    public static MemberResDto.GetMemberByLoginId getMemberByLoginId(Member member) {
+        return MemberResDto.GetMemberByLoginId.builder()
+                .memberId(member.getMemberId())
+                .memberName(member.getMemberName())
+                .loginId(member.getLoginId())
+                .build();
+
+    }
+
+    public static List<MemberResDto.GetMemberByLoginId> getMemberByLoginId(List<Member> members){
+        return members.stream()
+                .map(MemberConverter::getMemberByLoginId)
+                .collect(Collectors.toList());
+    }
+
 
 }

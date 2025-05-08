@@ -166,7 +166,7 @@ public class MemberController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "COMMON200-성공",content = @Content(schema = @Schema(implementation = ApiResult.class))),
     })
-    public ApiResult<MemberResDto.GetMemberByLoginId> getMemberByLoginId(@RequestParam String loginId) {
+    public ApiResult<List<MemberResDto.GetMemberByLoginId>> getMemberByLoginId(@RequestParam String loginId) {
 
         return ApiResult.onSuccess(memberService.getMemberByLoginId(loginId));
 

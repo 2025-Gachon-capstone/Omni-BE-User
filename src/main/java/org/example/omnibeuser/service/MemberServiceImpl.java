@@ -166,12 +166,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberResDto.GetMemberByLoginId getMemberByLoginId(String loginId) {
+    public List<MemberResDto.GetMemberByLoginId> getMemberByLoginId(String loginId) {
 
-        Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new GeneralException(ErrorStatus._NOT_FOUND_MEMBER));
+        List<Member> members = memberRepository.findTop20ByLoginIdContaining(loginId);
 
-        return new MemberResDto.GetMemberByLoginId(member.getMemberId(), member.getLoginId(), member.getMemberName());
+        return MemberConverter.getMemberByLoginId(members);
     }
 
 }
