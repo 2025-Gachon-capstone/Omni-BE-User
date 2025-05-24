@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.4'
     id 'io.spring.dependency-management' version '1.1.7'
+    // id 'com.autonomousapps.dependency-analysis' version '2.17.0'
 }
 
 ext {
@@ -28,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework:spring-context-indexer'
+    // implementation 'org.springframework:spring-context-indexer'
     annotationProcessor 'org.springframework:spring-context-indexer'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
