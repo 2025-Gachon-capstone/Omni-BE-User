@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableFeignClients(basePackages = "org.example.omnibeuser.client")
 @EntityScan(basePackages = "org.example.omnibeuser.entity")
-// @EnableJpaRepositories(basePackages = "org.example.omnibeuser.repository")
+@EnableJpaRepositories(basePackages = "org.example.omnibeuser.repository")
 public class OmniBeUserApplication {
 
     public static void main(String[] args) {
