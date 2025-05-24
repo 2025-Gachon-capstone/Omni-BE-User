@@ -1,6 +1,6 @@
 spring:
-  main:
-    lazy-initialization: true
+#  main:
+#    lazy-initialization: true
   application:
     name: Omni-BE-User
   datasource:
@@ -8,8 +8,8 @@ spring:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
-  jpa:
-    open-in-view: false
+#  jpa:
+#    open-in-view: false
     hibernate:
       ddl-auto: none
       naming:
