@@ -28,8 +28,8 @@ repositories {
 }
 
 dependencies {
-//    implementation 'org.springframework:spring-context-indexer'
-//    annotationProcessor 'org.springframework:spring-context-indexer'
+    implementation 'org.springframework:spring-context-indexer'
+    annotationProcessor 'org.springframework:spring-context-indexer'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
