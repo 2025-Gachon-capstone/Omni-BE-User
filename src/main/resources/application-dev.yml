@@ -31,10 +31,8 @@ management:
   endpoints:
     web:
       exposure:
-        include: prometheus, health, metrics, startup
+        include: prometheus, health, metrics
   endpoint:
-    startup:
-      enabled: true
     health:
       show-details: never
   metrics:

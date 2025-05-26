@@ -14,10 +14,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class OmniBeUserApplication {
 
     public static void main(String[] args) {
-        // SpringApplication.run(OmniBeUserApplication.class, args);
-        SpringApplication app = new SpringApplication(OmniBeUserApplication.class);
-        app.setApplicationStartup(new BufferingApplicationStartup(2048));
-        app.run(args);
+        SpringApplication.run(OmniBeUserApplication.class, args);
     }
-
 }
