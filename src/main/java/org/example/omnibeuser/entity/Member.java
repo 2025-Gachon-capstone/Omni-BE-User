@@ -6,6 +6,9 @@ import org.example.omnibeuser.entity.base.BaseEntity;
 import org.example.omnibeuser.entity.type.MemberStatus;
 import org.example.omnibeuser.entity.type.Role;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -35,6 +38,9 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MemberStatus status;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MemberBenefit> memberBenefits = new ArrayList<>();
 
     @Version
     private Long version;
