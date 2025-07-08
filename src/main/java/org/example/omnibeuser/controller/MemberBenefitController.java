@@ -36,6 +36,17 @@ public class MemberBenefitController {
         return ApiResult.onSuccess(memberBenefitService.createMemberBenefit(createMemberBenefitDto));
     }
 
+    @PostMapping("/memberBenefits/sync-status")
+    @Operation(summary = "멤버 혜택 변경 Api",description = " 서비스 끼리 통신입니다. ",tags = "Service-MemberBenefit")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "COMMON200-성공",content = @Content(schema = @Schema(implementation = ApiResult.class))),
+    })
+    public ApiResult<?> syncMemberBenefit(@RequestBody List<MemberBenefitReqDto.SyncMemberBenefit> syncMemberBenefitList){
+        memberBenefitService.syncMemberBenefit(syncMemberBenefitList);
+        return ApiResult.onSuccess();
+
+    }
+
     @GetMapping("/memberBenefits/exist")
     @Operation(summary = "멤버 혜택 존재 여부 Api",description = " 서비스 끼리 통신입니다. ",tags = "Service-MemberBenefit")
     @ApiResponses({

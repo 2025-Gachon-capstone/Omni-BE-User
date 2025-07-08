@@ -135,8 +135,27 @@ public class MemberBenefitServiceImpl implements MemberBenefitService {
     }
 
     @Override
+    public void syncMemberBenefit(List<MemberBenefitReqDto.SyncMemberBenefit> syncMemberBenefitList) {
+
+        for (MemberBenefitReqDto.SyncMemberBenefit dto : syncMemberBenefitList) {
+            MemberBenefitStatus newStatus = MemberBenefitStatus.valueOf(dto.getNewStatus());
+
+            List<MemberBenefit> benefitsToUpdate = memberBenefitRepository.findByBenefitIdAndStatusIn(
+                    dto.getBenefitId(),
+                    List.of(MemberBenefitStatus.BEFORE, MemberBenefitStatus.ONGOING)
+            );
+
+            for (MemberBenefit mb : benefitsToUpdate) {
+                mb.setStatus(newStatus);
+                memberBenefitRepository.save(mb);
+            }
+        }
+    }
+
+    @Override
     public Boolean existsMemberBenefit(Long benefitId) {
         boolean exists = memberBenefitRepository.existsByBenefitId(benefitId);
         return exists;
     }
+
 }

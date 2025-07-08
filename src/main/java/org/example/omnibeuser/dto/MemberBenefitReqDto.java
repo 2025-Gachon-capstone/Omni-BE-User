@@ -17,4 +17,14 @@ public class MemberBenefitReqDto {
         private List<Long> memberIdList;
 
     }
+
+    @Getter
+    public static class SyncMemberBenefit{
+
+        private Long benefitId;
+        private String newStatus;
+
+    }
+
+
 }
