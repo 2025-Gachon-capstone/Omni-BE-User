@@ -25,11 +25,25 @@ public class MemberBenefitController {
     @PostMapping("/memberBenefit")
     @Operation(summary = "멤버혜택 생성 API",description = "서비스 끼리 통신입니다.",tags = "Service-MemberBenefit")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "COMMON200-성공",content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "200", description = "COMMON200-성공",content = @Content(schema = @Schema(implementation = ApiResult.class))),@ApiResponse(responseCode = "4002-1", description = "CARD4002-사용자의 카드가 없습니다.",content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "4002-2", description = "BENEFIT4002-유효하지 않은 헤택 상태입니다.",content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "4003", description = "BENEFIT4003-혜택의 수량을 초과하였습니다.",content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "5002", description = "SERVICE5002-SPONSOR 서버 에러",content = @Content(schema = @Schema(implementation = ApiResult.class)))
+
     })
     public ApiResult<List<Long>> createMemberBenefit(@RequestBody MemberBenefitReqDto.CreateMemberBenefit createMemberBenefitDto){
 
         return ApiResult.onSuccess(memberBenefitService.createMemberBenefit(createMemberBenefitDto));
+    }
+
+    @GetMapping("/memberBenefits/exist")
+    @Operation(summary = "멤버 혜택 존재 여부 Api",description = " 서비스 끼리 통신입니다. ",tags = "Service-MemberBenefit")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "COMMON200-성공",content = @Content(schema = @Schema(implementation = ApiResult.class))),
+    })
+    public ApiResult<Boolean> existMemberBenefit(@RequestParam Long benefitId){
+
+        return ApiResult.onSuccess(memberBenefitService.existsMemberBenefit(benefitId));
     }
 
 

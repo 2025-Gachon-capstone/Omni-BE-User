@@ -8,5 +8,6 @@ import java.util.List;
 public interface MemberBenefitRepository extends JpaRepository<MemberBenefit, Long> {
 
     List<MemberBenefit> findAllByBenefitId(Long benefitId);
+    boolean existsByBenefitId(Long benefitId);
 
 }

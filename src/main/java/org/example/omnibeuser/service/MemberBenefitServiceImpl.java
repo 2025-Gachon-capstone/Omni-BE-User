@@ -133,4 +133,10 @@ public class MemberBenefitServiceImpl implements MemberBenefitService {
 
         return finalMemberIds;
     }
+
+    @Override
+    public Boolean existsMemberBenefit(Long benefitId) {
+        boolean exists = memberBenefitRepository.existsByBenefitId(benefitId);
+        return exists;
+    }
 }

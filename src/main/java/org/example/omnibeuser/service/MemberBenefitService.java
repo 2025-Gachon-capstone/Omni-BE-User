@@ -7,5 +7,6 @@ import java.util.List;
 public interface MemberBenefitService {
 
     List<Long> createMemberBenefit(MemberBenefitReqDto.CreateMemberBenefit createMemberBenefitDto);
+    Boolean existsMemberBenefit(Long benefitId);
 
 }
