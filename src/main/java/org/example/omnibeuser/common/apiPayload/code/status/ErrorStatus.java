@@ -54,6 +54,11 @@ public enum ErrorStatus implements BaseErrorCode {
     _ALREADY_EXIST_CATEGORY(HttpStatus.BAD_REQUEST,"CATEGORY4001","이미 존재하는 카테고리입니다."),
     _CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,"CATEGORY4002","카테고리가 없습니다."),
 
+    // 혜택 상태
+    _NOT_FOUND_BENEFIT(HttpStatus.NOT_FOUND,"BENEFIT4001","혜택이 없습니다."),
+    _INVALID_BENEFIT_STATUS(HttpStatus.BAD_REQUEST,"BENEFIT4002","유효하지 않은 헤택 상태입니다."),
+    _EXCEED_BENEFIT_AMOUNT(HttpStatus.BAD_REQUEST,"BENEFIT4003","혜택의 수량을 초과하였습니다."),
+
     // 서비스 상태
     _USER_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"SERVICE5000","USER 서버 에러"),
     _CARD_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"SERVICE5001","CARD 서버 에러"),

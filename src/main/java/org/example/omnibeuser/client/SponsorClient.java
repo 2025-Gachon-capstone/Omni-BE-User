@@ -1,6 +1,7 @@
 package org.example.omnibeuser.client;
 
 import org.example.omnibeuser.common.apiPayload.ApiResult;
+import org.example.omnibeuser.dto.BenefitResDto;
 import org.example.omnibeuser.dto.SponsorReqDto;
 import org.example.omnibeuser.dto.SponsorResDto;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -19,5 +20,8 @@ public interface SponsorClient {
     // 스폰서 id 가져오기
     @GetMapping("/sponsor/v1/sponsors/{memberId}")
     ApiResult<SponsorResDto.GetSponsorId> getSponsorId(@PathVariable("memberId") Long memberId);
+
+    @GetMapping("/sponsor/v1/benefits/{benefitId}")
+    ApiResult<BenefitResDto.GetBenefit> getBenefit(@PathVariable("benefitId") Long benefitId);
 
 }
