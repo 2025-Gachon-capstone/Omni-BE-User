@@ -12,6 +12,7 @@ public interface MemberBenefitRepository extends JpaRepository<MemberBenefit, Lo
 
     List<MemberBenefit> findAllByBenefitId(Long benefitId);
     Page<MemberBenefit> findByMember_MemberId(Long memberId, Pageable pageable);
+    List<MemberBenefit> findByMember_MemberIdAndStatus(Long memberId, MemberBenefitStatus status);
     List<MemberBenefit> findByBenefitIdAndStatusIn(Long benefitId, List<MemberBenefitStatus> statuses);
     boolean existsByBenefitId(Long benefitId);
 
