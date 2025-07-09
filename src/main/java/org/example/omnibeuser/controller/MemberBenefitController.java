@@ -1,13 +1,18 @@
 package org.example.omnibeuser.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.example.omnibeuser.common.apiPayload.ApiResult;
 import org.example.omnibeuser.dto.MemberBenefitReqDto;
+import org.example.omnibeuser.dto.MemberBenefitResDto;
 import org.example.omnibeuser.service.MemberBenefitService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +39,32 @@ public class MemberBenefitController {
     public ApiResult<List<Long>> createMemberBenefit(@RequestBody MemberBenefitReqDto.CreateMemberBenefit createMemberBenefitDto){
 
         return ApiResult.onSuccess(memberBenefitService.createMemberBenefit(createMemberBenefitDto));
+    }
+
+    @GetMapping("/my/memberBenefits")
+    @Operation(summary = "전체 멤버 혜택 Api",description = " 페이징 필요 - ( page, size 만 적어도 됨, 스웨거에서 sort 는 배열이 아닌 빈문자열로 넣어주세요 )  - ( 엑세스 토큰 필요 )",tags = "MemberBenefit")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "COMMON200-성공",content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "5002", description = "SERVICE5002-SPONSOR 서버 에러",content = @Content(schema = @Schema(implementation = ApiResult.class)))
+    })
+    public ApiResult<MemberBenefitResDto.GetMemberBenefitPage> getCardBenefits(@PageableDefault(size = 10, sort = "updatedAt", direction = Sort.Direction.DESC) Pageable pageable,
+                                                                               @Parameter(hidden = true) @RequestHeader("X-Authorization-Id") Long memberId){
+
+        return ApiResult.onSuccess(memberBenefitService.getMemberBenefits(memberId, pageable));
+
+    }
+
+    @GetMapping("/my/memberBenefits/available")
+    @Operation(summary = "사용가능한 멤버 혜택 Api",description = " 상태가 ONGOING인 멤버혜택만 보여집니다. - ( 엑세스 토큰 필요 )",tags = "MemberBenefit")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "COMMON200-성공",content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "4008", description = "MEMBER4008-사용자를 찾지 못하였습니다.",content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "5002", description = "SERVICE5002-SPONSOR 서버 에러",content = @Content(schema = @Schema(implementation = ApiResult.class)))
+    })
+    public ApiResult<List<MemberBenefitResDto.GetMemberBenefit>> getAvailableMemberBenefits(@Parameter(hidden = true) @RequestHeader("X-Authorization-Id") Long memberId){
+
+        return ApiResult.onSuccess(memberBenefitService.getAvailableMemberBenefit(memberId));
+
     }
 
     @PostMapping("/memberBenefits/sync-status")

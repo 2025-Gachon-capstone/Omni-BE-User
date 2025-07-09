@@ -6,16 +6,21 @@ import org.example.omnibeuser.client.SponsorClient;
 import org.example.omnibeuser.common.apiPayload.ApiResult;
 import org.example.omnibeuser.common.apiPayload.code.status.ErrorStatus;
 import org.example.omnibeuser.common.apiPayload.exception.GeneralException;
+import org.example.omnibeuser.converter.MemberBenefitConverter;
 import org.example.omnibeuser.dto.BenefitResDto;
 import org.example.omnibeuser.dto.MemberBenefitReqDto;
+import org.example.omnibeuser.dto.MemberBenefitResDto;
 import org.example.omnibeuser.entity.Member;
 import org.example.omnibeuser.entity.MemberBenefit;
 import org.example.omnibeuser.entity.type.MemberBenefitStatus;
 import org.example.omnibeuser.repository.MemberBenefitRepository;
 import org.example.omnibeuser.repository.MemberRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.smartcardio.Card;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -132,6 +137,71 @@ public class MemberBenefitServiceImpl implements MemberBenefitService {
                 .collect(Collectors.toList());
 
         return finalMemberIds;
+    }
+
+    @Override
+    public MemberBenefitResDto.GetMemberBenefitPage getMemberBenefits(Long memberId, Pageable pageable) {
+
+        Page<MemberBenefit> memberBenefits = memberBenefitRepository.findByMember_MemberId(memberId, pageable);
+
+        List<Long> benefitIds = memberBenefits.stream()
+                .map(MemberBenefit::getBenefitId)
+                .distinct()
+                .toList();
+
+        List<BenefitResDto.GetBatchBenefit> getBatchBenefits;
+
+        try {
+            ApiResult<List<BenefitResDto.GetBatchBenefit>> response = sponsorClient.getBatchBenefits(benefitIds);
+            getBatchBenefits = response.getResult();
+        } catch (FeignException e) {
+            log.error("스폰서 호출 실패: {}", e.contentUTF8());
+            throw new GeneralException(ErrorStatus._SPONSOR_SERVICE_ERROR);
+        }
+
+        Map<Long, BenefitResDto.GetBatchBenefit> benefitMap = getBatchBenefits.stream()
+                .collect(Collectors.toMap(BenefitResDto.GetBatchBenefit::getBenefitId, b -> b));
+
+        return MemberBenefitConverter.toGetMemberBenefitPage(memberBenefits, benefitMap);
+    }
+
+    @Override
+    public List<MemberBenefitResDto.GetMemberBenefit> getAvailableMemberBenefit(Long memberId) {
+
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus._NOT_FOUND_MEMBER));
+
+        List<MemberBenefit> memberBenefits = memberBenefitRepository.findByMember_MemberIdAndStatus(
+                member.getMemberId(), MemberBenefitStatus.ONGOING
+        );
+
+        return convertMemberBenefits(memberBenefits);
+    }
+
+    private List<MemberBenefitResDto.GetMemberBenefit> convertMemberBenefits(List<MemberBenefit> memberBenefits) {
+        if (memberBenefits.isEmpty()) return List.of();
+
+        List<Long> benefitIds = memberBenefits.stream()
+                .map(MemberBenefit::getBenefitId)
+                .distinct()
+                .toList();
+
+        List<BenefitResDto.GetBatchBenefit> getBatchBenefits;
+        try {
+            ApiResult<List<BenefitResDto.GetBatchBenefit>> response = sponsorClient.getBatchBenefits(benefitIds);
+            getBatchBenefits = response.getResult();
+        } catch (FeignException e) {
+            log.error("스폰서 호출 실패: {}", e.contentUTF8());
+            throw new GeneralException(ErrorStatus._SPONSOR_SERVICE_ERROR);
+        }
+
+        Map<Long, BenefitResDto.GetBatchBenefit> benefitMap = getBatchBenefits.stream()
+                .collect(Collectors.toMap(BenefitResDto.GetBatchBenefit::getBenefitId, b -> b));
+
+        return memberBenefits.stream()
+                .filter(mb -> benefitMap.containsKey(mb.getBenefitId()))
+                .map(mb -> MemberBenefitConverter.toGetCardBenefit(mb, benefitMap.get(mb.getBenefitId())))
+                .toList();
     }
 
     @Override
