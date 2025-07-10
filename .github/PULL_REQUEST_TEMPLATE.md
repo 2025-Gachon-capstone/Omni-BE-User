@@ -1,36 +1,54 @@
 ## #️⃣ Issue Number
 
-<!--- ex) #이슈번호, #이슈번호 -->
+<!--- Related issue(s), e.g., #12, #45 -->
+<!--- Please make sure to link the issue for traceability -->
 
-## 📝 요약(Summary)
+## 📝 Summary
 
-<!--- 변경 사항 및 관련 이슈에 대해 간단하게 작성해주세요. 어떻게보다 무엇을 왜 수정했는지 설명해주세요. -->
+<!--- Briefly explain the purpose of this PR. Focus on *what* was changed and *why*, rather than *how*. -->
 
-## 🛠️ PR 유형
+## 📁 Category (from issue)
 
-어떤 변경 사항이 있나요?
+<!--- Select the category that matches this PR (should match issue category) -->
 
-- [ ] 새로운 기능 추가
-- [ ] 버그 수정
-- [ ] 코드에 영향을 주지 않는 변경사항(오타 수정, 탭 사이즈 변경, 변수명 변경)
-- [ ] 주석 추가 및 수정
-- [ ] 문서 수정
-- [ ] 테스트 추가, 테스트 리팩토링
-- [ ] 빌드 부분 혹은 패키지 매니저 수정
-- [ ] 파일 혹은 폴더명 수정
-- [ ] 파일 혹은 폴더 삭제
+- [ ] `feat` – New feature
+- [ ] `fix` – Bug fix
+- [ ] `chore` – Build, config, or dev-related task
+- [ ] `docs` – Documentation
+- [ ] `style` – Code style/formatting (no logic change)
+- [ ] `refactor` – Code refactoring
+- [ ] `test` – Add or update tests
+- [ ] `perf` – Performance improvement
+- [ ] `rename` – Rename files/variables/etc.
+- [ ] `remove` – Code or folder removal
 
-## 📸스크린샷 (선택)
+## 📌 Context / Background
 
-## 💬 공유사항 to 리뷰어
+<!--- Why was this PR needed? Any relevant context or design decisions can go here. -->
 
-<!--- 리뷰어가 중점적으로 봐줬으면 좋겠는 부분이 있으면 적어주세요. -->
-<!--- 논의해야할 부분이 있다면 적어주세요.-->
-<!--- ex) 메서드 XXX의 이름을 더 잘 짓고 싶은데 혹시 좋은 명칭이 있을까요? -->
+
+
+## ✅ Acceptance Criteria
+
+<!--- What needs to be true for this PR to be considered complete? -->
+
+
+
+## 📎 References / Additional Notes
+
+<!--- Related documents, links, screenshots, or diagrams -->
+
+
+
+## 💬 Notes for Reviewers
+
+<!--- Anything you'd like reviewers to focus on, ask for help with, or discuss together --> 
+<!--- e.g., I'm not sure about the method name — do you have any suggestions for a better one? -->
+
+
 
 ## ✅ PR Checklist
 
-PR이 다음 요구 사항을 충족하는지 확인하세요.
-
-- [ ] 커밋 메시지 컨벤션에 맞게 작성했습니다.
-- [ ] 변경 사항에 대한 테스트를 했습니다.(버그 수정/기능에 대한 테스트).
+- [ ] The PR title follows the commit message convention.
+- [ ] The implementation has been tested for the intended change (bug fix or feature).
+- [ ] The PR is linked to a relevant issue.
