@@ -26,5 +26,13 @@ public class MemberBenefitReqDto {
 
     }
 
+    @Getter
+    public static class CheckAvailableMemberBenefit{
+
+        @NotNull(message = "cardNumber는 필수입니다.")
+        private String cardNumber;
+
+    }
+
 
 }

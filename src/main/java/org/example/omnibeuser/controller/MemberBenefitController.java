@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.example.omnibeuser.common.apiPayload.ApiResult;
 import org.example.omnibeuser.dto.MemberBenefitReqDto;
 import org.example.omnibeuser.dto.MemberBenefitResDto;
@@ -64,6 +65,20 @@ public class MemberBenefitController {
     public ApiResult<List<MemberBenefitResDto.GetMemberBenefit>> getAvailableMemberBenefits(@Parameter(hidden = true) @RequestHeader("X-Authorization-Id") Long memberId){
 
         return ApiResult.onSuccess(memberBenefitService.getAvailableMemberBenefit(memberId));
+
+    }
+
+    @PostMapping("/memberBenefits/check")
+    @Operation(summary = "멤버 혜택 확인하기 Api",description = " 카드 번호 16자리를 입력해주세요. - ( 토큰 필요 없음 )",tags = "MemberBenefit")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "COMMON200-성공",content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "4008", description = "MEMBER4008-사용자를 찾지 못하였습니다.",content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "5001", description = "SERVICE5001-CARD 서버 에러",content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "5002", description = "SERVICE5002-SPONSOR 서버 에러",content = @Content(schema = @Schema(implementation = ApiResult.class)))
+    })
+    public ApiResult<List<MemberBenefitResDto.GetMemberBenefit>> checkAvailableMemberBenefits(@Valid @RequestBody MemberBenefitReqDto.CheckAvailableMemberBenefit checkAvailableMemberBenefit){
+
+        return ApiResult.onSuccess(memberBenefitService.checkAvailableMemberBenefit(checkAvailableMemberBenefit));
 
     }
 

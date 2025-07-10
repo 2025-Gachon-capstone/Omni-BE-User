@@ -11,6 +11,7 @@ public interface MemberBenefitService {
     List<Long> createMemberBenefit(MemberBenefitReqDto.CreateMemberBenefit createMemberBenefitDto);
     MemberBenefitResDto.GetMemberBenefitPage getMemberBenefits(Long memberId, Pageable pageable);
     List<MemberBenefitResDto.GetMemberBenefit> getAvailableMemberBenefit(Long memberId);
+    List<MemberBenefitResDto.GetMemberBenefit> checkAvailableMemberBenefit(MemberBenefitReqDto.CheckAvailableMemberBenefit dto);
     void syncMemberBenefit(List<MemberBenefitReqDto.SyncMemberBenefit> syncMemberBenefitList);
     Boolean existsMemberBenefit(Long benefitId);
 

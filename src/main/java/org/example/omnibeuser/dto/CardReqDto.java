@@ -17,4 +17,12 @@ public class CardReqDto {
         private String cardPassword;
     }
 
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GetMemberId{
+        private String cardNumber;
+    }
+
 }

@@ -2,14 +2,13 @@ package org.example.omnibeuser.service;
 
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
+import org.example.omnibeuser.client.CardClient;
 import org.example.omnibeuser.client.SponsorClient;
 import org.example.omnibeuser.common.apiPayload.ApiResult;
 import org.example.omnibeuser.common.apiPayload.code.status.ErrorStatus;
 import org.example.omnibeuser.common.apiPayload.exception.GeneralException;
 import org.example.omnibeuser.converter.MemberBenefitConverter;
-import org.example.omnibeuser.dto.BenefitResDto;
-import org.example.omnibeuser.dto.MemberBenefitReqDto;
-import org.example.omnibeuser.dto.MemberBenefitResDto;
+import org.example.omnibeuser.dto.*;
 import org.example.omnibeuser.entity.Member;
 import org.example.omnibeuser.entity.MemberBenefit;
 import org.example.omnibeuser.entity.type.MemberBenefitStatus;
@@ -34,12 +33,14 @@ public class MemberBenefitServiceImpl implements MemberBenefitService {
     private final SponsorClient sponsorClient;
     private final MemberBenefitRepository memberBenefitRepository;
     private final MemberRepository memberRepository;
+    private final CardClient cardClient;
 
     public MemberBenefitServiceImpl(SponsorClient sponsorClient, MemberBenefitRepository memberBenefitRepository,
-                                    MemberRepository memberRepository) {
+                                    MemberRepository memberRepository, CardClient cardClient) {
         this.sponsorClient = sponsorClient;
         this.memberBenefitRepository = memberBenefitRepository;
         this.memberRepository = memberRepository;
+        this.cardClient = cardClient;
     }
 
     @Override
@@ -174,6 +175,33 @@ public class MemberBenefitServiceImpl implements MemberBenefitService {
         List<MemberBenefit> memberBenefits = memberBenefitRepository.findByMember_MemberIdAndStatus(
                 member.getMemberId(), MemberBenefitStatus.ONGOING
         );
+
+        return convertMemberBenefits(memberBenefits);
+    }
+
+    @Override
+    public List<MemberBenefitResDto.GetMemberBenefit> checkAvailableMemberBenefit(MemberBenefitReqDto.CheckAvailableMemberBenefit dto) {
+
+        Long memberId;
+        CardReqDto.GetMemberId cardNumber = CardReqDto.GetMemberId.builder()
+                .cardNumber(dto.getCardNumber())
+                .build();
+
+        try {
+            ApiResult<CardResDto.GetMemberId> response = cardClient.getMemberId(cardNumber);
+            memberId = response.getResult().getMemberId();
+            log.info(memberId.toString());
+        } catch (FeignException e) {
+            log.error("카드 호출 실패: {}", e.contentUTF8());
+            throw new GeneralException(ErrorStatus._CARD_SERVICE_ERROR);
+        }
+
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus._NOT_FOUND_MEMBER));
+
+        List<MemberBenefit> memberBenefits = memberBenefitRepository.findByMember_MemberIdAndStatus(
+                member.getMemberId(), MemberBenefitStatus.ONGOING);
+
 
         return convertMemberBenefits(memberBenefits);
     }
