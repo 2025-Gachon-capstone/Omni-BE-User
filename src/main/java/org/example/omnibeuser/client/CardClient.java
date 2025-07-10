@@ -1,6 +1,8 @@
 package org.example.omnibeuser.client;
 
+import org.example.omnibeuser.common.apiPayload.ApiResult;
 import org.example.omnibeuser.dto.CardReqDto;
+import org.example.omnibeuser.dto.CardResDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,4 +14,6 @@ public interface CardClient {
     @PostMapping("/card/v1/cards")
     void createCard(@RequestBody CardReqDto.CreateCard card);
 
+    @PostMapping("/card/v1/memberId")
+    ApiResult<CardResDto.GetMemberId> getMemberId(@RequestBody CardReqDto.GetMemberId cardNumber);
 }
