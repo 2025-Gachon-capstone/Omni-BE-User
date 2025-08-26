@@ -72,7 +72,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public Member createSponsorMember(MemberReqDto.SponsorSignup sponsorSignupDto) {
-
         if(memberRepository.findByLoginId(sponsorSignupDto.getLoginId()).isPresent()){
             throw new GeneralException(ErrorStatus._ALREADY_EXIST_LOGINID);
         }
